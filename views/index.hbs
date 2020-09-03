@@ -1,9 +1,11 @@
-<a href="./todos/new">Create</a>
+<a href="./todos/new">Create</a> <!-- 指定 /todos/new 路由路徑 -->
 <ul>
   {{#each todos}}
   <li>
     {{this.name}}
     <a href="./todos/{{ this._id }}">detail</a>
+    <!--在 Mongoose 裡使用 _id 來表示每筆資料的唯一識別碼  -->
+    <a href="./todos/{{ this._id }}/edit">edit</a><!-- 加入這行 -->
   </li>
   {{/each}}
 </ul>

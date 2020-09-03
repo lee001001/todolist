@@ -36,6 +36,8 @@ app.get('/', (req, res) => {
     .catch(error => console.error(error)) // 錯誤處理
 })
 
+//更新路由設定 GET /todos/new
+//呼叫view引擊去拿new樣版
 app.get('/todos/new', (req, res) => {
   return res.render('new')
 })
@@ -48,12 +50,35 @@ app.post('/todos', (req, res) => {
 })
 
 app.get('/todos/:id', (req, res) => {
-  const id = req.params.id
-  return Todo.findById(id)
-    .lean()
+  const id = req.params.id //在路由網址如果用了冒號 :，表示這是一個動態參數，可以用 req.params 
+  return Todo.findById(id) //查詢特定一筆 todo 資料
+    .lean() //「撈資料以後想用 res.render()，就要先用 .lean()」
     .then((todo) => res.render('detail', { todo }))
     .catch(error => console.log(error))
 })
+
+app.get('/todos/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .lean()
+    .then((todo) => res.render('edit', { todo }))
+    .catch(error => console.log(error))
+})
+
+app.post('/todos/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
+  return Todo.findById(id)
+    .then(todo => {
+      todo.name = name
+      return todo.save()
+    })
+    .then(() => res.redirect(`/todos/${id}`))
+    .catch(error => console.log(error))
+})
+
+
+
 
 // 設定 port 3000
 app.listen(3000, () => {
