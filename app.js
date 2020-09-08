@@ -2,11 +2,11 @@
 const express = require('express')
 const mongoose = require('mongoose') // 載入 mongoose
 const Todo = require('./models/todo') // 載入 Todo model
-
-// 引用 body-parser
+const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const exphbs = require('express-handlebars');
 const app = express()
+
 
 mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -27,6 +27,8 @@ app.set('view engine', 'hbs')
 
 // 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(methodOverride('_method'))
 
 // setting main page
 app.get('/', (req, res) => {
@@ -66,7 +68,7 @@ app.get('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   //const name = req.body.name
   const { name, isDone } = req.body
@@ -80,7 +82,7 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then(todo => todo.remove())
