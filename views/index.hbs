@@ -2,6 +2,7 @@
 <ul>
   {{#each todos}}
   <li>
+    <input type="checkbox" name="isDone" {{#if this.isDone}} checked {{/if}} disabled>
     {{this.name}}
     <a href="./todos/{{ this._id }}">detail</a>
     <!--在 Mongoose 裡使用 _id 來表示每筆資料的唯一識別碼  -->
