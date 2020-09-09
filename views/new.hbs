@@ -1,5 +1,8 @@
-<form action="/todos" method="POST">
-  <!--action="/todos"表示表單要發送到/todos首頁 -->
-  <input type="text" placeholder="name" name="name"> <!-- name="name" 可以使用req.body.name，拿出輸入誆的值  -->
-  <button type="submit">Create</button>
+<form action="/todos" method="POST" style="display: inline;">
+  <div class="input-group">
+    <input class="form-control" type="text" placeholder="name" name="name">
+    <div class="input-group-append">
+      <button class="btn btn-success" type="submit">create</button>
+    </div>
+  </div>
 </form>
