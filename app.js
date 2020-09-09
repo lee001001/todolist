@@ -1,18 +1,21 @@
 // 載入 express 並建構應用程式伺服器
 const express = require('express')
-const mongoose = require('mongoose') // 載入 mongoose
-const Todo = require('./models/todo') // 載入 Todo model
+//const mongoose = require('mongoose') // 載入 mongoose
+//const Todo = require('./models/todo') // 載入 Todo model
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const exphbs = require('express-handlebars');
+const routes = require('./routes')
+require('./config/mongoose')
 const app = express()
 
 
-mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
+//mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 取得資料庫連線狀態
-const db = mongoose.connection
+//const db = mongoose.connection
 // 連線異常
+/*
 db.on('error', () => {
   console.log('mongodb error!')
 })
@@ -21,6 +24,7 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('mongodb connected!')
 })
+*/
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
@@ -29,8 +33,10 @@ app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(methodOverride('_method'))
+app.use(routes)
 
 // setting main page
+/*
 app.get('/', (req, res) => {
   Todo.find() // 取出 Todo model 裡的所有資料
     .lean() // 把 Mongoose 的 Model 物件轉換成乾淨的 JavaScript 資料陣列
@@ -38,6 +44,7 @@ app.get('/', (req, res) => {
     .then(todos => res.render('index', { todos })) // 將資料傳給 index 樣板
     .catch(error => console.error(error)) // 錯誤處理
 })
+
 
 //更新路由設定 GET /todos/new
 //呼叫view引擊去拿new樣版
@@ -89,7 +96,7 @@ app.delete('/todos/:id', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
-
+*/
 
 
 // 設定 port 3000
