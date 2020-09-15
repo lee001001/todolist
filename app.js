@@ -1,19 +1,20 @@
 // 載入 express 並建構應用程式伺服器
 const express = require('express')
-//const mongoose = require('mongoose') // 載入 mongoose
-//const Todo = require('./models/todo') // 載入 Todo model
+// const mongoose = require('mongoose') // 載入 mongoose
+// const Todo = require('./models/todo') // 載入 Todo model
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
-const exphbs = require('express-handlebars');
+const exphbs = require('express-handlebars')
 const routes = require('./routes')
 require('./config/mongoose')
 const app = express()
 
+const PORT = process.env.PORT || 3000
 
-//mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 取得資料庫連線狀態
-//const db = mongoose.connection
+// const db = mongoose.connection
 // 連線異常
 /*
 db.on('error', () => {
@@ -45,7 +46,6 @@ app.get('/', (req, res) => {
     .catch(error => console.error(error)) // 錯誤處理
 })
 
-
 //更新路由設定 GET /todos/new
 //呼叫view引擊去拿new樣版
 app.get('/todos/new', (req, res) => {
@@ -60,7 +60,7 @@ app.post('/todos', (req, res) => {
 })
 
 app.get('/todos/:id', (req, res) => {
-  const id = req.params.id //在路由網址如果用了冒號 :，表示這是一個動態參數，可以用 req.params 
+  const id = req.params.id //在路由網址如果用了冒號 :，表示這是一個動態參數，可以用 req.params
   return Todo.findById(id) //查詢特定一筆 todo 資料
     .lean() //「撈資料以後想用 res.render()，就要先用 .lean()」
     .then((todo) => res.render('detail', { todo }))
@@ -98,8 +98,7 @@ app.delete('/todos/:id', (req, res) => {
 })
 */
 
-
 // 設定 port 3000
 app.listen(3000, () => {
-  console.log('App is running on http://localhost:3000')
+  console.log(`App is running on http://localhost:${PORT}`)
 })
